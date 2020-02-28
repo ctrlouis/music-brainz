@@ -1,60 +1,101 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <form @submit="exec">
+      <input type="text" placeholder="Search..." v-model="searched"></input>
+      <br>
+      <input type="radio" id="album" value="album" v-model="searchType">
+      <label for="two">Album</label>
+      <br>
+      <input type="radio" id="artist" value="artist" v-model="searchType">
+      <label for="one">Artist</label>
+      <br>
+      <input type="radio" id="track" value="track" v-model="searchType">
+      <label for="two">Track</label>
+      <br>
+    </form>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
+
 export default {
   name: 'app',
-  data () {
+
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      api: {
+        music: {
+          url: "http://musicbrainz.org/ws/2"
+        }
+      },
+      searched: "",
+      searchType: ""
     }
-  }
+  },
+
+  methods: {
+    exec(event) {
+      event.preventDefault();
+      switch (this.searchType) {
+        case "album":
+          this.fetchAlbums(this.searched);
+          break;
+        case "artist":
+          this.fetchArtists(this.searched);
+          break;
+        case "track":
+          this.fetchTracks(this.searched);
+          break;
+      
+        default:
+          break;
+      }
+    },
+    fetchAlbums(page=0) {
+      const url = this.api.music.url + "/release-group?query=" + this.searched + "&" + this.calculPage(page);
+      axios.get(url)
+        .then((res) => {
+          const albums = res.data;
+          console.log(albums);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    fetchArtists(page=0) {
+      const url = this.api.music.url + "/artist?query=" + this.searched  + "&" + this.calculPage(page);;
+      axios.get(url)
+        .then((res) => {
+          const artists = res.data;
+          console.log(artists);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    fetchTracks(page=0) {
+      const url = this.api.music.url + "/release?query=" + this.searched + "&" + this.calculPage(page);
+      axios.get(url)
+        .then((res) => {
+          const tracks = res.data;
+          console.log(tracks);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    calculPage(pageNbr=0, pageSize=100) {
+      const offset = pageNbr * pageSize;
+      return "limite=" + pageSize + "&offset=" + offset;
+    }
+  },
+
+  created() {}
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>
