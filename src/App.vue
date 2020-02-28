@@ -1,7 +1,10 @@
+<!-- MAIN COMPONENT -->
+
+
 <template>
   <div id="app">
     <form @submit="exec">
-      <input type="text" placeholder="Search..." v-model="searched"></input>
+      <input type="text" placeholder="Search..." v-model="searched">
       <br>
       <input type="radio" id="album" value="album" v-model="searchType">
       <label for="two">Album</label>
@@ -13,15 +16,23 @@
       <label for="two">Track</label>
       <br>
     </form>
+
+    <albums v-if="fetchData.type == 'album'" :albums="fetchData.data"></albums>
+    <!-- <albums v-else-if="fetchData.type == 'artist'" :artists="fetchData.data"></albums> -->
+    <!-- <albums v-else-if="fetchData.type == 'track'" :tracks="fetchData.data"></albums> -->
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 
+import Albums from './components/Albums.vue';
+
 
 export default {
   name: 'app',
+
+  components: { Albums },
 
   data() {
     return {
@@ -31,7 +42,11 @@ export default {
         }
       },
       searched: "",
-      searchType: ""
+      searchType: "",
+      fetchData: {
+        type: '',
+        data: []
+      }
     }
   },
 
@@ -53,42 +68,73 @@ export default {
           break;
       }
     },
+
+    /*
+    * Retrieve albums from music-brainz api
+    */
     fetchAlbums(page=0) {
       const url = this.api.music.url + "/release-group?query=" + this.searched + "&" + this.calculPage(page);
       axios.get(url)
         .then((res) => {
-          const albums = res.data;
-          console.log(albums);
+          const albumsData = res.data;
+          this.updateData(albumsData);
+          this.fetchData.type = 'album';
+          console.log(albumsData);
         })
         .catch((error) => {
           console.error(error);
         });
     },
+
+    /*
+    * Retrieve artists from music-brainz api
+    */
     fetchArtists(page=0) {
       const url = this.api.music.url + "/artist?query=" + this.searched  + "&" + this.calculPage(page);;
       axios.get(url)
         .then((res) => {
-          const artists = res.data;
-          console.log(artists);
+          const artistsData = res.data;
+          this.fetchData.type = 'artist';
+          console.log(artistsData);
         })
         .catch((error) => {
           console.error(error);
         });
     },
+
+    /*
+    * Retrieve tracks from music-brainz api
+    */
     fetchTracks(page=0) {
       const url = this.api.music.url + "/release?query=" + this.searched + "&" + this.calculPage(page);
       axios.get(url)
         .then((res) => {
-          const tracks = res.data;
-          console.log(tracks);
+          const tracksData = res.data;
+          this.fetchData.type = 'track';
+          console.log(tracksData);
         })
         .catch((error) => {
           console.error(error);
         });
     },
+
+    /*
+    * Calcule page and offest query options
+    */
     calculPage(pageNbr=0, pageSize=100) {
       const offset = pageNbr * pageSize;
       return "limite=" + pageSize + "&offset=" + offset;
+    },
+
+    /*
+    * Retrieve tracks from music-brainz api
+    */
+    updateData(datas) {
+      // console.log(datas);
+      this.fetchData.data = datas;
+      console.log(this.fetchData.data);
+      // while (this.fetchData.data.length > 0) this.fetchData.data.unshift();
+      // datas.forEach(data => this.fetchData.data.push(data));
     }
   },
 
