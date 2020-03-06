@@ -17,22 +17,21 @@
       <br>
     </form>
 
-    <albums v-if="fetchData.type == 'album'" :albums="fetchData.data"></albums>
-    <!-- <albums v-else-if="fetchData.type == 'artist'" :artists="fetchData.data"></albums> -->
-    <!-- <albums v-else-if="fetchData.type == 'track'" :tracks="fetchData.data"></albums> -->
+    <liste v-if="fetchData.type == 'album'" :albums="fetchData.data"></liste>
+    <!-- <liste v-else-if="fetchData.type == 'artist'" :artists="fetchData.data"></liste> -->
+    <!-- <liste v-else-if="fetchData.type == 'track'" :tracks="fetchData.data"></liste> -->
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-
-import Albums from './components/Albums.vue';
+import Liste from './components/Liste.vue';
 
 
 export default {
   name: 'app',
 
-  components: { Albums },
+  components: { Liste },
 
   data() {
     return {
