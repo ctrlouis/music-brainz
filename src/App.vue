@@ -4,6 +4,7 @@
   <div id="app">
     <h1>My Music Manager</h1>
     <router-view></router-view>
+    <p>App powered by <a href="https://musicbrainz.org/">musicbrainz</a></p>
   </div>
 </template>
 
@@ -21,6 +22,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+h1, p {
+  text-align: center;
+}
 </style>

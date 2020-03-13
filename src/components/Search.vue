@@ -1,7 +1,7 @@
 <template>
     <div>
         <SearchForm @newSearch="onNewSearch"></SearchForm>
-        <p>Result related to "{{research}}"</p>
+        <h3 class="indication">Result related to "{{research}}"</h3>
         <h2>Albums :</h2>
         <Album v-if="fetchData.albums" v-for="album in fetchData.albums.data['release-groups']" :data="album"></Album>
         <p v-else>Loading</p>
@@ -97,31 +97,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-//   color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+<style lang="scss" scoped>
+.indication {
+    text-align: center;
+    margin-top: 2%;
 }
 </style>

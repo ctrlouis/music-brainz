@@ -1,4 +1,13 @@
+@import './modules/font.scss';
+
+
 body {
     background-color: black;
     color: white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    color: #42b983;
 }
