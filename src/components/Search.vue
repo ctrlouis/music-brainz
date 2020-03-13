@@ -4,13 +4,13 @@
         <p>Result related to "{{research}}"</p>
         <h2>Albums :</h2>
         <Album v-if="fetchData.albums" v-for="album in fetchData.albums.data['release-groups']" :data="album"></Album>
-        <p v-else="fetchData.albums">Loading</p>
+        <p v-else>Loading</p>
         <h2>Artists :</h2>
         <Artist v-if="fetchData.artists" v-for="artist in fetchData.artists.data['artists']" :data="artist"></Artist>
-        <p v-else="fetchData.albums">Loading</p>
+        <p v-else>Loading</p>
         <h2>Tracks :</h2>
         <Track v-if="fetchData.tracks" v-for="track in fetchData.tracks.data['releases']" :data="track"></Track>
-        <p v-else="fetchData.albums">Loading</p>
+        <p v-else>Loading</p>
     </div>
 </template>
 
