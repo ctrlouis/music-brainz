@@ -102,4 +102,7 @@ export default {
     text-align: center;
     margin-top: 2%;
 }
+h2 {
+    margin-top: 3%;
+}
 </style>
