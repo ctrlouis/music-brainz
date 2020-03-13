@@ -5,8 +5,8 @@
         </div>
         <p v-else>Loading</p>
 
-        <!-- <Album v-if="albums" v-for="album in albums" :data="album"></Album> -->
-        <!-- <p v-else>Loading</p> -->
+        <!-- <Album v-if="albums" v-for="album in albums" :data="album"></Album>
+        <p v-else>Loading</p> -->
     </div>
 </template>
 
@@ -43,12 +43,21 @@ export default {
             }).catch(err => console.error(err));
         },
         fetchArtistAlbums() {
-            const url = `${this.api.music.url}/release?artist=${this.$route.params.id}&fmt=json&limit=10`;
+            const url = `${this.api.music.url}/release-group?artist=${this.$route.params.id}&fmt=json&limit=10`;
             console.log(url);
             axios.get(url)
             .then((res) => {
                 this.albums = res.data;
                 console.log(this.albums);                
+            }).catch(err => console.error(err));
+        },
+        fetchArtistTracks() {
+            const url = `${this.api.music.url}/release?artist=${this.$route.params.id}&fmt=json&limit=10`;
+            console.log(url);
+            axios.get(url)
+            .then((res) => {
+                this.tracks = res.data;
+                console.log(this.tracks);                
             }).catch(err => console.error(err));
         }
     },
@@ -57,6 +66,7 @@ export default {
         this.id = this.$route.params.id;
         this.fetchArtistData();
         this.fetchArtistAlbums();
+        this.fetchArtistTracks();
     }
 }
 </script>
