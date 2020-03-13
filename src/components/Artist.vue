@@ -2,7 +2,7 @@
 
 <template>
     <div>
-        <p>{{data.name}}</p>
+        <h3>{{data.name}}</h3>
         <router-link :to="detailUrl">Go to details</router-link>
     </div>
 </template>
