@@ -6,8 +6,6 @@
 
 <script>
 export default {
-    props: ['data'],
-
     data() {
         return {
             api: {
@@ -21,6 +19,7 @@ export default {
     methods: {
         fetchArtistData() {
             const url = `${this.api.music.url}/artists/${this.$route.params.id}`;
+
         }
     },
 
