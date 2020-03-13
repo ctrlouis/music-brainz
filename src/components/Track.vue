@@ -2,7 +2,7 @@
 
 <template>
     <div>
-        <p>Track</p>
+        <p>{{data.title}}</p>
     </div>
 </template>
 

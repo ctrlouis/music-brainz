@@ -2,7 +2,7 @@
 
 <template>
     <div>
-        <p>Artist</p>
+        <p>{{data.name}}</p>
     </div>
 </template>
 

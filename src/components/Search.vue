@@ -9,7 +9,7 @@
         <Artist v-if="fetchData.artists" v-for="artist in fetchData.artists.data['artists']" :data="artist"></Artist>
         <p v-else="fetchData.albums">Loading</p>
         <h2>Tracks :</h2>
-        <Track v-if="fetchData.tracks" v-for="track in fetchData.tracks.data['release']" :data="track"></Track>
+        <Track v-if="fetchData.tracks" v-for="track in fetchData.tracks.data['releases']" :data="track"></Track>
         <p v-else="fetchData.albums">Loading</p>
     </div>
 </template>
@@ -23,7 +23,7 @@ import SearchForm from './SearchForm.vue';
 
 
 export default {
-    components: { SearchForm, Album },
+    components: { SearchForm, Album, Artist, Track },
 
     data() {
         return {
