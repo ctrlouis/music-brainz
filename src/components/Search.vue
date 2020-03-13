@@ -27,7 +27,6 @@ export default {
 
     data() {
         return {
-            test : 1,
             api: {
                 music: {
                     url: "http://musicbrainz.org/ws/2"
@@ -51,6 +50,11 @@ export default {
         },
 
         searchAll(research) {
+            this.fetchData = {
+                albums: null,
+                artists: null,
+                tracks: null
+            }
             const requests = [this.getAlbumsRequest(), this.getArtistsRequest(), this.getTracksRequest()];
             axios.all(requests)
             .then(axios.spread((albums, artists, tracks) => {

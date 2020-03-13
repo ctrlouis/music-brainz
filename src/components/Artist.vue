@@ -3,6 +3,7 @@
 <template>
     <div>
         <p>{{data.name}}</p>
+        <router-link :to="detailUrl">Go to details</router-link>
     </div>
 </template>
 
@@ -12,6 +13,12 @@ export default {
 
     data() {
         return {}
+    },
+
+    computed: {
+        detailUrl() {
+            return `/artists/${this.data.id}`;
+        }
     }
 }
 </script>

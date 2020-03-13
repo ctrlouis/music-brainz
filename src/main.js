@@ -6,6 +6,7 @@ import './scss/main.scss';
 import App from './App.vue';
 import HomePage from './components/HomePage.vue';
 import Search from './components/Search.vue';
+import ArtistDetails from './components/ArtistDetails.vue';
 import NotFound from './components/NotFound.vue';
 
 
@@ -22,6 +23,10 @@ const router = new VueRouter({
     {
       path: "/search/:research",
       component: Search
+    },
+    {
+      path: "/artists/:id",
+      component: ArtistDetails
     },
     {
       path: "*",
