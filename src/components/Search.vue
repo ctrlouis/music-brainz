@@ -3,25 +3,31 @@
         <SearchForm @newSearch="onNewSearch"></SearchForm>
         <p>Result related to "{{research}}"</p>
         <h2>Albums :</h2>
-        <Liste :albums="fetchData.albums.data"></Liste>
+        <Album v-if="fetchData.albums" v-for="album in fetchData.albums.data['release-groups']" :data="album"></Album>
+        <p v-else="fetchData.albums">Loading</p>
         <h2>Artists :</h2>
-        <Liste :artists="fetchData.artists.data"></Liste>
+        <Artist v-if="fetchData.artists" v-for="artist in fetchData.artists.data['artists']" :data="artist"></Artist>
+        <p v-else="fetchData.albums">Loading</p>
         <h2>Tracks :</h2>
-        <Liste :albums="fetchData.tracks.data"></Liste>
+        <Track v-if="fetchData.tracks" v-for="track in fetchData.tracks.data['release']" :data="track"></Track>
+        <p v-else="fetchData.albums">Loading</p>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import Liste from './Liste.vue';
+import Album from './Album.vue';
+import Artist from './Artist.vue';
+import Track from './Track.vue';
 import SearchForm from './SearchForm.vue';
 
 
 export default {
-    components: { Liste, SearchForm },
+    components: { SearchForm, Album },
 
     data() {
         return {
+            test : 1,
             api: {
                 music: {
                     url: "http://musicbrainz.org/ws/2"
@@ -29,9 +35,9 @@ export default {
             },
             research: "",
             fetchData: {
-                albums: {},
-                artists: {},
-                tracks: {}
+                albums: null,
+                artists: null,
+                tracks: null
             }
         }
     },
@@ -49,8 +55,11 @@ export default {
             axios.all(requests)
             .then(axios.spread((albums, artists, tracks) => {
                 this.fetchData.albums = albums;
+                console.log(this.fetchData.albums);
                 this.fetchData.artists = artists;
+                console.log(this.fetchData.artists);
                 this.fetchData.tracks = tracks;
+                console.log(this.fetchData.tracks);
             })).catch(err => console.error(err));
         },
 
@@ -157,7 +166,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+//   color: #2c3e50;
   margin-top: 60px;
 }
 

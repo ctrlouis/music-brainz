@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+import './scss/main.scss';
+
 import App from './App.vue';
 import HomePage from './components/HomePage.vue';
 import Search from './components/Search.vue';

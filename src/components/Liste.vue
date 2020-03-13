@@ -2,9 +2,9 @@
 
 <template>
     <div>
-        <Album v-if="" v-for="album in albums['release-groups']" :data="album"></Album>
-        <Artist v-if="" v-for="artist in artists['artist']" :data="artist"></Artist>
-        <Track v-if="" v-for="track in tracks['release']" :data="track"></Track>
+        <!-- <Album v-if="" v-for="album in albums['release-groups']" :data="album"></Album> -->
+        <!-- <Artist v-if="" v-for="artist in artists['artist']" :data="artist"></Artist> -->
+        <!-- <Track v-if="" v-for="track in tracks['release']" :data="track"></Track> -->
     </div>
 </template>
 
@@ -17,7 +17,15 @@ import Track from './Track.vue';
 export default {
     props: ['albums, artists, tracks'],
 
-    components: { Album, Artist, Track }
+    components: { Album, Artist, Track },
+
+    data() {
+        return {}
+    },
+    
+    created() {
+        console.log(this.albums);
+    }
 }
 </script>
 

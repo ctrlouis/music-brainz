@@ -29,11 +29,6 @@ export default {
         src() {
             return this.api.cover.url + this.data.id + "/front";
         }
-    },
-
-    created() {
-        console.log(this.data);
-        
     }
 }
 </script>
