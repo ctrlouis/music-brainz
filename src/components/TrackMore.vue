@@ -39,7 +39,6 @@ export default {
             .then(res => {
                 this.fetchData.count = res.data.count;
                 this.fetchData.tracks = res.data['releases'];
-                console.log(this.fetchData.tracks);
             })
             .catch(err => console.error(err));
         },
