@@ -9,7 +9,10 @@
         <Artist v-if="fetchData.artists" v-for="artist in fetchData.artists.data['artists']" :data="artist"></Artist>
         <p v-else>Loading</p>
         <h2>Tracks :</h2>
-        <Track v-if="fetchData.tracks" v-for="track in fetchData.tracks.data['releases']" :data="track"></Track>
+        <div v-if="fetchData.tracks">
+            <Track v-for="track in fetchData.tracks.data['releases']" :data="track"></Track>
+            <router-link :to="moreTrackUrl">Show more</router-link>
+        </div>
         <p v-else>Loading</p>
     </div>
 </template>
@@ -84,9 +87,15 @@ export default {
         /*
         * Calcule page and offest query options
         */
-        calculPage(pageNbr=0, pageSize=100) {
+        calculPage(pageNbr=0, pageSize=30) {
             const offset = pageNbr * pageSize;
             return "limite=" + pageSize + "&offset=" + offset;
+        }
+    },
+
+    computed: {
+        moreTrackUrl() {
+            return `/tracks/${this.research}`;
         }
     },
 
