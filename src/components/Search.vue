@@ -11,7 +11,10 @@
         <p v-else>Loading</p>
 
         <h2>Artists :</h2>
-        <Artist v-if="fetchData.artists" v-for="artist in fetchData.artists.data['artists']" :data="artist"></Artist>
+        <div v-if="fetchData.artists">
+            <Artist v-for="artist in fetchData.artists.data['artists']" :data="artist"></Artist>
+            <router-link :to="moreArtistUrl">Show more</router-link>
+        </div>
         <p v-else>Loading</p>
 
         <h2>Tracks :</h2>
@@ -102,6 +105,9 @@ export default {
     computed: {
         moreAlbumUrl() {
             return `/search/albums/${this.research}`;
+        },
+        moreArtistUrl() {
+            return `/search/artists/${this.research}`;
         },
         moreTrackUrl() {
             return `/search/tracks/${this.research}`;

@@ -3,11 +3,12 @@
 <template>
     <div>
         <div>
-            <img :src="src" alt="Front album cover">
+            <img :src="imageSrc" alt="Front album cover">
         </div>
         <div>
             <h3>{{data.title}}</h3>
         </div>
+        <router-link :to="detailUrl">Go to details</router-link>
     </div>
 </template>
 
@@ -26,7 +27,10 @@ export default {
     },
 
     computed: {
-        src() {
+        detailUrl() {
+            return `/artists/${this.data.id}`;
+        },
+        imageSrc() {
             return this.api.cover.url + this.data.id + "/front";
         }
     }
