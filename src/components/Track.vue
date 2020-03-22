@@ -3,7 +3,7 @@
 <template>
     <div>
         <h3>{{title}}</h3>
-        <p>{{album}}</p>
+        <p v-if="album">{{album}}</p>
         <p v-for="artist in artists">{{artist.name}}</p>
     </div>
 </template>
@@ -21,11 +21,17 @@ export default {
             return this.data.title;
         },
         album() {
-            return this.data['release-group'].title;
+            let album = null;
+            if (this.data['release-group']) {
+                album = this.data['release-group'].title;
+            }
+            return album;
         },
         artists() {
             let artists = [];
-            this.data['artist-credit'].forEach(artist => artists.push(artist));
+            if (this.data['artist-credit']) {
+                this.data['artist-credit'].forEach(artist => artists.push(artist));
+            }
             return artists;
         }
     }

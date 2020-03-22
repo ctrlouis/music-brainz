@@ -28,7 +28,7 @@ export default {
 
     computed: {
         detailUrl() {
-            return `/artists/${this.data.id}`;
+            return `/albums/${this.data.id}`;
         },
         imageSrc() {
             return this.api.cover.url + this.data.id + "/front";
