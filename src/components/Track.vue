@@ -2,9 +2,10 @@
 
 <template>
     <tr>
-        <td>{{title}}</td>
-        <td v-if="album"><router-link :to="albumUrl">{{ title }}</router-link></td>
+        <td>{{data.title}}</td>
+        <td><router-link :to="albumUrl">{{ title }}</router-link></td>
         <td><span v-for="artist in artists"><router-link :to="`/artists/${artist.id}`">{{ artist.name }}</router-link></span></td>
+        <td>{{data.length}}</td>
     </tr>
 </template>
 
@@ -22,8 +23,8 @@ export default {
         },
         album() {
             let album = null;
-            if (this.data['release-group']) {
-                album = this.data['release-group'].title;
+            if (this.data.releases[0]) {
+                album = this.data.releases[0].title;
             }
             return album;
         },
@@ -35,7 +36,7 @@ export default {
             return artists;
         },
         albumUrl() {
-            return `/albums/${this.data['release-group'].id}`;
+            return `/albums/${this.data.releases[0].id}`;
         }
     }
 }

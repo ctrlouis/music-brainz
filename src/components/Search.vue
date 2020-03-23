@@ -24,10 +24,11 @@
                             <th><h4>Title</h4></th>
                             <th><h4>Album</h4></th>
                             <th><h4>Artist</h4></th>
+                            <th><h4>Time</h4></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <Track v-for="track in fetchData.tracks.data['releases']" :data="track"></Track>
+                        <Track v-for="track in this.fetchData.tracks.data.recordings" :data="track"></Track>
                     </tbody>
                 </table>
             </div>
@@ -86,7 +87,7 @@ export default {
                 this.fetchData.artists = artists;
                 console.log(this.fetchData.artists);
                 this.fetchData.tracks = tracks;
-                console.log(this.fetchData.tracks);
+                console.log(this.fetchData.tracks.data.recordings);
             })).catch(err => console.error(err));
         },
 
