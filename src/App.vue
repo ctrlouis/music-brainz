@@ -2,9 +2,13 @@
 
 <template>
   <div id="app">
-    <h1>My Music Manager</h1>
-    <router-view></router-view>
-    <p>App powered by <a href="https://musicbrainz.org/">musicbrainz</a></p>
+    <main>
+      <h1>My Music Manager</h1>
+      <router-view></router-view>
+    </main>
+    <footer>
+      <p>App powered by <a href="https://musicbrainz.org/">musicbrainz</a></p>
+    </footer>
   </div>
 </template>
 

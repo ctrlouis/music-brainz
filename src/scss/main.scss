@@ -2,12 +2,46 @@
 @import './modules/font.scss';
 
 
+html {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background-color: black;
   color: white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
 }
+
+#app {
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  header {
+    // flex-shrink: 0;
+    // z-index: 99;
+    // box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  }
+  
+  main {
+    // flex-grow: 1;
+    // overflow: auto;
+  }
+  
+  footer {
+    // flex-shrink: 0;
+    padding: 2% 0 1% 0;
+  }
+}
+
 
 a {
   color: $green;
