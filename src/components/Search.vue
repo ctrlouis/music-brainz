@@ -4,19 +4,19 @@
         <h3 class="indication">Result related to "{{research}}"</h3>
         
         <div v-if="loaded">
-            <h2>Albums :</h2>
+            <h2><i class="fas fa-compact-disc"></i> Albums :</h2>
             <div v-if="fetchData.albums" >
                 <Album v-for="album in fetchData.albums.data['release-groups']" :data="album"></Album>
                 <router-link :to="moreAlbumUrl">Show more</router-link>
             </div>
 
-            <h2>Artists :</h2>
+            <h2><i class="fas fa-user"></i> Artists :</h2>
             <div v-if="fetchData.artists">
                 <Artist v-for="artist in fetchData.artists.data['artists']" :data="artist"></Artist>
                 <router-link :to="moreArtistUrl">Show more</router-link>
             </div>
 
-            <h2>Tracks :</h2>
+            <h2><i class="fas fa-music"></i> Tracks :</h2>
             <div v-if="fetchData.tracks">
                 <table>
                     <thead>
