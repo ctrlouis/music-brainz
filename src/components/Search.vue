@@ -83,9 +83,7 @@ export default {
             axios.all(requests)
             .then(axios.spread((albums, artists, tracks) => {
                 this.fetchData.artists = artists;
-                // console.log(this.fetchData.artists.data.artists);
                 this.fetchData.albums = albums;
-                console.log(this.fetchData.albums.data.releases);
                 this.fetchData.tracks = tracks;
             })).catch(err => console.error(err));
         },
