@@ -3,7 +3,7 @@
         <div v-if="artist">
             <h1>{{artist.name}}</h1>
         </div>
-        <p v-else>Loading</p>
+        <div v-else><Loader></Loader></div>
 
         <!-- <Album v-if="albums" v-for="album in albums" :data="album"></Album>
         <p v-else>Loading</p> -->
@@ -14,10 +14,11 @@
 import axios from 'axios';
 import Album from './Album.vue';
 import Track from './Track.vue';
+import Loader from './Loader.vue';
 
 
 export default {
-    components: { Album, Track },
+    components: { Album, Track, Loader },
 
     data() {
         return {

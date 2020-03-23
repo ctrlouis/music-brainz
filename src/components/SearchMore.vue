@@ -1,18 +1,13 @@
 <template>
     <div>
-        <div v-if="type == 'albums' && fetchedData.data">
-            <Album v-for="album in fetchedData.data" :data="album"></Album>
-            <button v-if="fetchedData.data.length < fetchedData.count" @click="fetchData">Load more</button>
+        <h2>All {{ type }} related to "{{ research }}" </h2>
+        <div>
+            <Album  v-if="type == 'albums' && dataAreFetch"         v-for="album in fetchedData.data"   :data="album"></Album>
+            <Artist v-else-if="type == 'artists' && dataAreFetch"   v-for="artist in fetchedData.data"  :data="artist"></Artist>
+            <Track  v-else-if="type == 'tracks' && dataAreFetch"    v-for="track in fetchedData.data"   :data="track"></Track>
+            <button v-if="dataLeft" @click="fetchData">Load more</button>
+            <div    v-else><Loader></Loader></div>
         </div>
-        <div v-else-if="type == 'artists' && fetchedData.data">
-            <Artist v-for="artist in fetchedData.data" :data="artist"></Artist>
-            <button v-if="fetchedData.data.length < fetchedData.count" @click="fetchData">Load more</button>
-        </div>
-        <div v-else-if="type == 'tracks' && fetchedData.data">
-            <Track v-for="track in fetchedData.data" :data="track"></Track>
-            <button v-if="fetchedData.data.length < fetchedData.count" @click="fetchData">Load more</button>
-        </div>
-        <p v-else>Loading</p>
     </div>
 </template>
 
@@ -21,10 +16,11 @@ import axios from 'axios';
 import Album from './Album.vue';
 import Artist from './Artist.vue';
 import Track from './Track.vue';
+import Loader from './Loader.vue';
 
 
 export default {
-    components: { Album, Artist, Track },
+    components: { Album, Artist, Track, Loader },
 
     data() {
         return {
@@ -69,8 +65,11 @@ export default {
             console.log(url);
             axios.get(url)
             .then(res => {
-                this.fetchedData.count = res.data.count;
-                res.data['release-groups'].forEach(album => this.fetchedData.data.push(album))
+                setTimeout(() => {
+                    this.fetchedData.count = res.data.count;
+                    res.data['release-groups'].forEach(album => this.fetchedData.data.push(album))
+                },
+                500);
             })
             .catch(err => console.error(err));
         },
@@ -98,6 +97,15 @@ export default {
         calculPage(pageNbr=0, pageSize=25) {
             const offset = pageNbr * pageSize;
             return "&limite=" + pageSize + "&offset=" + offset;
+        }
+    },
+
+    computed: {
+        dataAreFetch() {
+            return this.fetchedData.data.length > 0;
+        },
+        dataLeft() {
+            return this.fetchedData.data.length < this.fetchedData.count;
         }
     },
 

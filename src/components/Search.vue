@@ -8,21 +8,21 @@
             <Album v-for="album in fetchData.albums.data['release-groups']" :data="album"></Album>
             <router-link :to="moreAlbumUrl">Show more</router-link>
         </div>
-        <p v-else>Loading</p>
+        <div v-else><Loader></Loader></div>
 
         <h2>Artists :</h2>
         <div v-if="fetchData.artists">
             <Artist v-for="artist in fetchData.artists.data['artists']" :data="artist"></Artist>
             <router-link :to="moreArtistUrl">Show more</router-link>
         </div>
-        <p v-else>Loading</p>
+        <div v-else><Loader></Loader></div>
 
         <h2>Tracks :</h2>
         <div v-if="fetchData.tracks">
             <Track v-for="track in fetchData.tracks.data['releases']" :data="track"></Track>
             <router-link :to="moreTrackUrl">Show more</router-link>
         </div>
-        <p v-else>Loading</p>
+        <div v-else><Loader></Loader></div>
     </div>
 </template>
 
@@ -32,10 +32,11 @@ import Album from './Album.vue';
 import Artist from './Artist.vue';
 import Track from './Track.vue';
 import SearchForm from './SearchForm.vue';
+import Loader from './Loader.vue';
 
 
 export default {
-    components: { SearchForm, Album, Artist, Track },
+    components: { SearchForm, Album, Artist, Track, Loader },
 
     data() {
         return {
