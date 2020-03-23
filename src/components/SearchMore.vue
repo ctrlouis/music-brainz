@@ -2,11 +2,11 @@
     <div>
         <h2>All {{ type }} related to "{{ research }}" </h2>
         <div>
-            <Album  v-if="type == 'albums' && dataAreFetch"         v-for="album in fetchedData.data"   :data="album"></Album>
-            <Artist v-else-if="type == 'artists' && dataAreFetch"   v-for="artist in fetchedData.data"  :data="artist"></Artist>
-            <Track  v-else-if="type == 'tracks' && dataAreFetch"    v-for="track in fetchedData.data"   :data="track"></Track>
-            <button v-if="dataLeft" @click="fetchData">Load more</button>
-            <div    v-else><Loader></Loader></div>
+            <Album  v-if="type == 'albums' && dataAreFetch"     v-for="album in fetchedData.data"   :data="album"></Album>
+            <Artist v-if="type == 'artists' && dataAreFetch"    v-for="artist in fetchedData.data"  :data="artist"></Artist>
+            <Track  v-if="type == 'tracks' && dataAreFetch"     v-for="track in fetchedData.data"   :data="track"></Track>
+            <div v-if="loading"><Loader></Loader></div>
+            <button v-if="dataLeft" class="button" @click="loadMore">Load more</button>
         </div>
     </div>
 </template>
@@ -36,7 +36,8 @@ export default {
                 count: 0,
                 data: [],
                 url: ""
-            }
+            },
+            loading : true
         }
     },
 
@@ -54,6 +55,7 @@ export default {
                 case 'tracks':
                     this.fetchedData.url = this.api.music.url + "/release?query=" + this.research + "&fmt=json";
                     this.fetchTracks();
+
                     break;
                 default:
                     break;
@@ -65,13 +67,11 @@ export default {
             console.log(url);
             axios.get(url)
             .then(res => {
-                setTimeout(() => {
-                    this.fetchedData.count = res.data.count;
-                    res.data['release-groups'].forEach(album => this.fetchedData.data.push(album))
-                },
-                500);
+                this.fetchedData.count = res.data.count;
+                res.data['release-groups'].forEach(album => this.fetchedData.data.push(album));
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error(err))
+            .finally(() => this.loading = false);
         },
 
         fetchArtists() {
@@ -80,8 +80,10 @@ export default {
             .then(res => {
                 this.fetchedData.count = res.data.count;
                 res.data['artists'].forEach(artist => this.fetchedData.data.push(artist))
+                console.log(this.fetchedData.data);
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error(err))
+            .finally(() => this.loading = false);
         },
 
         fetchTracks() {
@@ -91,7 +93,13 @@ export default {
                 this.fetchedData.count = res.data.count;
                 res.data['releases'].forEach(track => this.fetchedData.data.push(track))
             })
-            .catch(err => console.error(err));
+            .catch(err => console.error(err))
+            .finally(() => this.loading = false);
+        },
+
+        loadMore() {
+            this.loading = true;
+            this.fetchData();
         },
 
         calculPage(pageNbr=0, pageSize=25) {
