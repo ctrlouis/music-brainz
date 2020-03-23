@@ -3,24 +3,24 @@
         <SearchForm @newSearch="onNewSearch"></SearchForm>
         <h3 class="indication">Result related to "{{research}}"</h3>
         
-        <h2>Albums :</h2>
-        <div v-if="fetchData.albums" >
-            <Album v-for="album in fetchData.albums.data['release-groups']" :data="album"></Album>
-            <router-link :to="moreAlbumUrl">Show more</router-link>
-        </div>
-        <div v-else><Loader></Loader></div>
+        <div v-if="loaded">
+            <h2>Albums :</h2>
+            <div v-if="fetchData.albums" >
+                <Album v-for="album in fetchData.albums.data['release-groups']" :data="album"></Album>
+                <router-link :to="moreAlbumUrl">Show more</router-link>
+            </div>
 
-        <h2>Artists :</h2>
-        <div v-if="fetchData.artists">
-            <Artist v-for="artist in fetchData.artists.data['artists']" :data="artist"></Artist>
-            <router-link :to="moreArtistUrl">Show more</router-link>
-        </div>
-        <div v-else><Loader></Loader></div>
+            <h2>Artists :</h2>
+            <div v-if="fetchData.artists">
+                <Artist v-for="artist in fetchData.artists.data['artists']" :data="artist"></Artist>
+                <router-link :to="moreArtistUrl">Show more</router-link>
+            </div>
 
-        <h2>Tracks :</h2>
-        <div v-if="fetchData.tracks">
-            <Track v-for="track in fetchData.tracks.data['releases']" :data="track"></Track>
-            <router-link :to="moreTrackUrl">Show more</router-link>
+            <h2>Tracks :</h2>
+            <div v-if="fetchData.tracks">
+                <Track v-for="track in fetchData.tracks.data['releases']" :data="track"></Track>
+                <router-link :to="moreTrackUrl">Show more</router-link>
+            </div>
         </div>
         <div v-else><Loader></Loader></div>
     </div>
@@ -112,6 +112,9 @@ export default {
         },
         moreTrackUrl() {
             return `/search/tracks/${this.research}`;
+        },
+        loaded() {
+            return this.fetchData.albums || this.fetchData.artists || this.fetchData.tracks;
         }
     },
 
