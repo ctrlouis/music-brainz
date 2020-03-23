@@ -1,7 +1,7 @@
 <template>
     <div>
         <form @submit="exec">
-            <input type="text" placeholder="Search..." v-model="research">
+            <input type="text" placeholder="Search..." v-model="research" autofocus>
             <select v-model="categorie">
                 <option disabled value="">Toutes catégories</option>
                 <option value="album">Albums</option>
