@@ -91,25 +91,18 @@ export default {
         },
 
         getAlbumsRequest() {
-            const url = this.api.music.url + "/release-group?query=" + this.research + "&" + this.calculPage();
+            const url = this.api.music.url + "/release?query=title:" + this.research + "&fmt=json";
             return axios.get(url);
         },
 
         getArtistsRequest() {
-            const url = this.api.music.url + "/artist?query=" + this.research  + "&" + this.calculPage();
+            const url = this.api.music.url + "/artist?query=name:" + this.research  + "&fmt=json";
             return axios.get(url);
         },
 
         getTracksRequest() {
-            const url = this.api.music.url + "/release?query=" + this.research + "&" + this.calculPage();
+            const url = this.api.music.url + "/recording?query=title:" + this.research + "&fmt=json";
             return axios.get(url);
-        },
-        /*
-        * Calcule page and offest query options
-        */
-        calculPage(pageNbr=0, pageSize=30) {
-            const offset = pageNbr * pageSize;
-            return "limite=" + pageSize + "&offset=" + offset;
         }
     },
 
