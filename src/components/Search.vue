@@ -21,9 +21,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Album</th>
-                            <th>Artist</th>
+                            <th><h4>Title</h4></th>
+                            <th><h4>Album</h4></th>
+                            <th><h4>Artist</h4></th>
                         </tr>
                     </thead>
                     <tbody>

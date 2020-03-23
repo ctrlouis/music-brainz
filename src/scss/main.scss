@@ -18,9 +18,9 @@ body {
 
 #app {
   height: 100vh;
-  width: 100%;
+  width: 90%;
   margin: 0;
-  padding: 0;
+  padding: 0 5%;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -72,4 +72,9 @@ a {
 
 .button:hover {
   text-shadow: 2px 2px 0px rgba(0, 0, 0, .3)
+}
+
+table {
+  font-family: $defaultFont;
+  font-size: 1.5em;
 }

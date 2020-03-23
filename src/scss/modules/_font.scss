@@ -10,7 +10,7 @@
 // fun font
 @import url('https://fonts.googleapis.com/css?family=Luckiest+Guy&display=swap');
 
-$defaultFont: 'Roboto', sans-serif;
+$defaultFont: 'nunito', sans-serif;
 $titleFont: 'Josefin Sans', 'Nunito', 'Roboto', sans-serif;
 $funFont: 'Luckiest Guy', 'Roboto', sans-serif;
 
@@ -26,16 +26,23 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
     font-size: 3.5em;
     text-align: center;
-    margin-top: 3%;
+    margin-top: 5%;
     text-shadow: 0 4px #42b983;
 }
 
 h2 {
     font-size: 3em;
+    margin-top: 3em;
 }
 
 h3 {
     font-size: 2em;
+    margin-top: 2em;
+}
+
+h4 {
+    font-size: 1.5em;
+    margin-top: 1.4em;
 }
 
 h2, h3 {
@@ -45,6 +52,7 @@ h2, h3 {
 p, ul, li {
     color: #42b983;
     font-family: $defaultFont;
+    font-size: 1.5em;
     margin: 0;
     padding: 0;
 }
