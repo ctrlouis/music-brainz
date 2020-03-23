@@ -4,16 +4,16 @@
         <h3 class="indication">Result related to "{{research}}"</h3>
         
         <div v-if="loaded">
-            <h2><i class="fas fa-compact-disc"></i> Albums :</h2> <router-link :to="moreTrackUrl">Show more</router-link>
-            <div v-if="fetchData.albums" class="cards">
-                <Album v-for="album in fetchData.albums.data['release-groups']" :data="album"></Album>
-                <router-link :to="moreAlbumUrl">Show more</router-link>
-            </div>
-
             <h2><i class="fas fa-user"></i> Artists :</h2> <router-link :to="moreTrackUrl">Show more</router-link>
             <div v-if="fetchData.artists" class="cards">
                 <Artist v-for="artist in fetchData.artists.data['artists']" :data="artist"></Artist>
                 <router-link :to="moreArtistUrl">Show more</router-link>
+            </div>
+
+            <h2><i class="fas fa-compact-disc"></i> Albums :</h2> <router-link :to="moreTrackUrl">Show more</router-link>
+            <div v-if="fetchData.albums" class="cards">
+                <Album v-for="album in fetchData.albums.data.releases" :data="album"></Album>
+                <router-link :to="moreAlbumUrl">Show more</router-link>
             </div>
 
             <h2><i class="fas fa-music"></i> Tracks :</h2> <router-link :to="moreTrackUrl">Show more</router-link>
@@ -82,12 +82,11 @@ export default {
             const requests = [this.getAlbumsRequest(), this.getArtistsRequest(), this.getTracksRequest()];
             axios.all(requests)
             .then(axios.spread((albums, artists, tracks) => {
-                this.fetchData.albums = albums;
-                console.log(this.fetchData.albums);
                 this.fetchData.artists = artists;
-                console.log(this.fetchData.artists);
+                // console.log(this.fetchData.artists.data.artists);
+                this.fetchData.albums = albums;
+                console.log(this.fetchData.albums.data.releases);
                 this.fetchData.tracks = tracks;
-                console.log(this.fetchData.tracks.data.recordings);
             })).catch(err => console.error(err));
         },
 

@@ -8,7 +8,10 @@
         <div>
             <h3>{{data.title}}</h3>
         </div>
-        <router-link :to="detailUrl">Go to details</router-link>
+        <div>
+            <span v-for="artist in artists"><router-link :to="`/artists/${artist.id}`">{{ artist.name }}</router-link></span>
+        </div>
+        <router-link :to="detailUrl">Go to details</router-link>    
     </div>
 </template>
 
@@ -29,6 +32,13 @@ export default {
     computed: {
         detailUrl() {
             return `/albums/${this.data.id}`;
+        },
+        artists() {
+            let artists = [];
+            if (this.data['artist-credit']) {
+                this.data['artist-credit'].forEach(artist => artists.push(artist.artist));
+            }
+            return artists;
         },
         imageSrc() {
             return this.api.cover.url + this.data.id + "/front";
