@@ -1,11 +1,12 @@
 <!-- ALBUM DISPLAYER COMPONENTS -->
 
 <template>
-    <div>
-        <h3>{{title}}</h3>
-        <p v-if="album">{{album}}</p>
-        <p v-for="artist in artists">{{artist.name}}</p>
-    </div>
+    <tr>
+        <td>{{title}}</td>
+        <td v-if="album">{{title}}</td>
+        <td v-else="album"></td>
+        <td><span v-for="artist in artists">{{artist.name}}</span></td>
+    </tr>
 </template>
 
 <script>

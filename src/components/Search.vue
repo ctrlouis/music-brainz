@@ -18,7 +18,18 @@
 
             <h2>Tracks :</h2>
             <div v-if="fetchData.tracks">
-                <Track v-for="track in fetchData.tracks.data['releases']" :data="track"></Track>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Album</th>
+                            <th>Artist</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <Track v-for="track in fetchData.tracks.data['releases']" :data="track"></Track>
+                    </tbody>
+                </table>
                 <router-link :to="moreTrackUrl">Show more</router-link>
             </div>
         </div>
