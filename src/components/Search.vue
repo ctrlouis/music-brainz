@@ -4,19 +4,19 @@
         <h3 class="indication">Result related to "{{research}}"</h3>
         
         <div v-if="loaded">
-            <h2><i class="fas fa-compact-disc"></i> Albums :</h2>
+            <h2><i class="fas fa-compact-disc"></i> Albums :</h2> <router-link :to="moreTrackUrl">Show more</router-link>
             <div v-if="fetchData.albums" class="cards">
                 <Album v-for="album in fetchData.albums.data['release-groups']" :data="album"></Album>
                 <router-link :to="moreAlbumUrl">Show more</router-link>
             </div>
 
-            <h2><i class="fas fa-user"></i> Artists :</h2>
+            <h2><i class="fas fa-user"></i> Artists :</h2> <router-link :to="moreTrackUrl">Show more</router-link>
             <div v-if="fetchData.artists" class="cards">
                 <Artist v-for="artist in fetchData.artists.data['artists']" :data="artist"></Artist>
                 <router-link :to="moreArtistUrl">Show more</router-link>
             </div>
 
-            <h2><i class="fas fa-music"></i> Tracks :</h2>
+            <h2><i class="fas fa-music"></i> Tracks :</h2> <router-link :to="moreTrackUrl">Show more</router-link>
             <div v-if="fetchData.tracks">
                 <table>
                     <thead>
@@ -30,7 +30,6 @@
                         <Track v-for="track in fetchData.tracks.data['releases']" :data="track"></Track>
                     </tbody>
                 </table>
-                <router-link :to="moreTrackUrl">Show more</router-link>
             </div>
         </div>
         <div v-else><Loader></Loader></div>

@@ -78,7 +78,7 @@ a {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: start;
 
   & > div {
     margin: 1.5em;

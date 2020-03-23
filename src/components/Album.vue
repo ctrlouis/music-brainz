@@ -3,7 +3,7 @@
 <template>
     <div>
         <div>
-            <img :src="imageSrc" alt="Front album cover">
+            <img :src="imageSrc" alt="">
         </div>
         <div>
             <h3>{{data.title}}</h3>
