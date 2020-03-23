@@ -1,13 +1,41 @@
+@import './modules/color.scss';
 @import './modules/font.scss';
 
 
 body {
-    background-color: black;
-    color: white;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  background-color: black;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
-    color: #42b983;
+  color: $green;
+}
+
+/* CSS BUTTON */
+.button {
+  border: none;
+  background-color: $green;
+  border-color: darken($color: $green, $amount: 20);
+  color: white;
+  display: inline-block;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 20px 50px;
+  border-radius: 3px;
+  margin: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  transition: text-shadow 0.3s ease;
+}
+
+.button:active {
+  position: relative;
+  top: 1px;
+  border-bottom-width: 2px;
+}
+
+.button:hover {
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, .3)
 }
