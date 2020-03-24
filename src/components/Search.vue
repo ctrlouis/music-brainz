@@ -35,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <Track v-for="track in this.fetchData.tracks.data.recordings" :data="track"></Track>
+                        <Track v-for="track in this.fetchData.tracks.data.recordings" :data="track" :info="{title: true, album: true, artist: true, time: true}"></Track>
                     </tbody>
                 </table>
             </div>

@@ -22,7 +22,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <Track v-for="track in fetchData.tracks.data.recordings" :data="track"></Track>
+                            <Track v-for="track in fetchData.tracks.data.recordings" :data="track" :info="{title: true, time: true}"></Track>
                         </tbody>
                     </table>
                 </div>

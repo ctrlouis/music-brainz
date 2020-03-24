@@ -2,16 +2,16 @@
 
 <template>
     <tr>
-        <td>{{data.title}}</td>
-        <td><router-link :to="albumUrl">{{ album }}</router-link></td>
-        <td><span v-for="artist in artists"><router-link :to="`/artists/${artist.id}`">{{ artist.name }}</router-link></span></td>
-        <td>{{time}}</td>
+        <td v-if="info.title">{{data.title}}</td>
+        <td v-if="info.album"><router-link :to="albumUrl">{{ album }}</router-link></td>
+        <td v-if="info.artists"><span v-for="artist in artists"><router-link :to="`/artists/${artist.id}`">{{ artist.name }}</router-link></span></td>
+        <td v-if="info.time">{{time}}</td>
     </tr>
 </template>
 
 <script>
 export default {
-    props: ['data'],
+    props: ['data', 'info'],
 
     data() {
         return {}
