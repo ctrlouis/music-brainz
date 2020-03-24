@@ -1,7 +1,12 @@
+/*
+* PAGE
+* Home page
+*/
+
 <template>
     <div>
         <p>Search any artists, albums or track you want to get a amazing information about them !</p>
-        <SearchForm  @newSearch="onNewSearch"></SearchForm>
+        <SearchForm @newSearch="onNewSearch"></SearchForm>
     </div>
 </template>
 
@@ -18,6 +23,12 @@ export default {
 
     methods: {
         onNewSearch(research) {
+            /*
+            * redirect user to search page
+            * when searching something
+            * 
+            * @input => research: user research
+            */
             const url = "/search/" + research;
             this.$router.replace(url);
         }
