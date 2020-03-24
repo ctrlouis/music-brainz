@@ -40,9 +40,8 @@
                 <Error v-if="lastSearch == 'tracks' && error.set">{{error.message}}</Error>
                 <button v-if="trackLeft" class="button" @click="loadMoreTracks">Load more</button>
             </div>
-            
         </div>
-        <div v-else-if="!error.set"><Loader></Loader></div>
+        <Loader v-if="!mainDataLoad && !error.set"></Loader>
         <Error v-if="error.set && !mainDataLoad">{{error.message}}</Error>
     </div>
 </template>
