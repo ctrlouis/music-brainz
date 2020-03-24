@@ -1,11 +1,25 @@
+/*
+* PAGE
+* Search for all albums,
+* or all artists,
+* or all tracks
+*/
+
 <template>
     <div>
         <h2>All {{ type }} related to "{{ research }}" </h2>
         <div>
             <div class="cards">
+
+                <!-- albums -->
                 <Album  v-if="type == 'albums' && dataAreFetch"     v-for="album in fetchedData.data"   :data="album"></Album>
+
+                <!-- artists -->
                 <Artist v-if="type == 'artists' && dataAreFetch"    v-for="artist in fetchedData.data"  :data="artist"></Artist>
+
             </div>
+
+            <!-- tracks -->
             <div v-if="type == 'tracks' && dataAreFetch">
                 <table>
                     <thead>
@@ -21,10 +35,13 @@
                     </tbody>
                 </table>
             </div>
+
             <div v-if="loading && !error.set"><Loader></Loader></div>
             <button v-if="dataLeft" class="button" @click="loadMore">Load more</button>
+
         </div>
         <Error v-if="error.set">{{error.message}}</Error>
+
     </div>
 </template>
 
@@ -65,6 +82,11 @@ export default {
 
     methods: {
         fetchData() {
+            /*
+            * allow to fetch the right data type
+            * according to previous user selection
+            * (albums, artists, tracks)
+            */
             switch (this.type) {
                 case 'albums':
                     this.fetchedData.url = this.api.music.url + "/release?query=" + this.research + "&fmt=json";
@@ -84,6 +106,10 @@ export default {
         },
 
         fetchAlbums() {
+            /*
+            * fetch 25 next albums
+            * and add them to current album list
+            */
             const url = this.fetchedData.url + this.calculPage(this.pageNbr);
             console.log(url);
             axios.get(url)
@@ -96,6 +122,10 @@ export default {
         },
 
         fetchArtists() {
+            /*
+            * fetch 25 next artists
+            * and add them to current artist list
+            */
             const url = this.fetchedData.url + this.calculPage(this.pageNbr);
             axios.get(url)
             .then(res => {
@@ -107,6 +137,10 @@ export default {
         },
 
         fetchTracks() {
+            /*
+            * fetch 25 next tracks
+            * and add them to current track list
+            */
             const url = this.fetchedData.url + this.calculPage(this.pageNbr);
             axios.get(url)
             .then(res => {
@@ -118,17 +152,26 @@ export default {
         },
 
         loadMore() {
+            /*
+            * fetch more data
+            */
             this.error.set = false;
             this.loading = true;
             this.fetchData();
         },
 
         calculPage(pageNbr=0, pageSize=25) {
+            /*
+            * calcul offset to fetch only new data
+            */
             const offset = pageNbr * pageSize;
             return "&limite=" + pageSize + "&offset=" + offset;
         },
 
         setError() {
+            /*
+            * display error
+            */
             this.error.set = true;
             this.error.message = "An error occurred when fetching data. Please retry later.";
         }
@@ -136,14 +179,28 @@ export default {
 
     computed: {
         dataAreFetch() {
+            /*
+            * allow to know if some data had been fetched
+            * 
+            * @return true if some data had been fetched, else return false
+            */
             return this.fetchedData.data.length > 0;
         },
         dataLeft() {
+            /*
+            * allow to know if some data aren't been fetch on api
+            *
+            * @return true if some data aren't been fetch on api, else return false
+            */
             return this.fetchedData.data.length < this.fetchedData.count;
         }
     },
 
     created() {
+        /*
+        * on component creation,
+        * start fetching data
+        */
         this.type = this.$route.params.type;
         this.research = this.$route.params.research;
         this.fetchData();
