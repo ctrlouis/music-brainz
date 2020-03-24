@@ -1,4 +1,7 @@
-<!-- ALBUM DISPLAYER COMPONENTS -->
+/*
+* COMPONENT
+* Display short artists informations
+*/
 
 <template>
     <router-link :to="detailUrl" class="card col-6 col-s-4 col-l-3 col-xl-2">
@@ -28,6 +31,9 @@ export default {
 
     computed: {
         detailUrl() {
+            /*
+            * @return url to current artist details
+            */
             return `/artists/${this.data.id}`;
         }
     }
