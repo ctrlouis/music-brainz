@@ -20,9 +20,8 @@
                 </tbody>
             </table>
         </div>
-            <div v-if="loading"><Loader></Loader></div>
-            <button v-if="dataLeft" class="button" @click="loadMore">Load more</button>
-        </div>
+        <div v-if="loading"><Loader></Loader></div>
+        <button v-if="dataLeft" class="button" @click="loadMore">Load more</button>
     </div>
 </template>
 
@@ -140,4 +139,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+div {
+    text-align: center;
+}
 </style>
