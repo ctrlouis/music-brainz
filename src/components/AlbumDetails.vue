@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div>
-                <h2><i class="fas fa-music"></i> Tracks</h2>
+                <h2><i class="fas fa-music"></i> Tracks :</h2>
                 <div v-if="fetchData.tracks">
                     <table>
                         <thead>
