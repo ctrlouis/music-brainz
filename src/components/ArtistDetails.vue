@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="loaded">
+        <div v-if="loaded && !error.set">
             <div class="artist">
                 <h2>{{fetchData.artist.data.name}}</h2>
                 <div v-if="fetchData.artist.data.type">
@@ -21,7 +21,8 @@
                 <button v-if="dataLeft" class="button" @click="loadMore">Load more</button>
             </div>
         </div>
-        <div v-else><Loader></Loader></div>
+        <div v-else-if="!error.set"><Loader></Loader></div>
+        <Error v-if="error.set">{{error.message}}</Error>
     </div>
 </template>
 
@@ -30,10 +31,11 @@ import axios from 'axios';
 import Album from './Album.vue';
 import Track from './Track.vue';
 import Loader from './Loader.vue';
+import Error from './Error.vue';
 
 
 export default {
-    components: { Album, Track, Loader },
+    components: { Album, Track, Loader, Error },
 
     data() {
         return {
@@ -48,6 +50,10 @@ export default {
                 music: {
                     url: "https://musicbrainz.org/ws/2"
                 }
+            },
+            error: {
+                set: false,
+                message: ""
             }
         }
     },
@@ -60,7 +66,7 @@ export default {
                 this.fetchData.artist = artist;
                 this.fetchData.albums = albums;
                 this.fetchData.count = albums.data['release-count'];
-            })).catch(err => console.error(err));
+            })).catch(err => this.setError());
         },
 
         getArtistsRequest() {
@@ -83,6 +89,11 @@ export default {
         calculPage(pageNbr=0, pageSize=25) {
             const offset = pageNbr * pageSize;
             return "&limite=" + pageSize + "&offset=" + offset;
+        },
+
+        setError() {
+            this.error.set = true;
+            this.error.message = "An error occurred when fetching data. Please retry later.";
         }
     },
 
