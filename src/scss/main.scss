@@ -104,9 +104,19 @@ a {
   justify-content: space-between;
 }
 
+.titleMore {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 table {
+  th {
+    text-align: left;
+  }
   font-family: $defaultFont;
   font-size: 1.5em;
+  width: 100%;
 }
 
 img {
