@@ -87,17 +87,17 @@ export default {
         },
 
         getAlbumsRequest() {
-            const url = this.api.music.url + "/release?query=title:" + this.research + "&fmt=json";
+            const url = this.api.music.url + "/release?query=title:" + this.research + "&limit=24&fmt=json";
             return axios.get(url);
         },
 
         getArtistsRequest() {
-            const url = this.api.music.url + "/artist?query=name:" + this.research  + "&fmt=json";
+            const url = this.api.music.url + "/artist?query=name:" + this.research  + "&limit=24&fmt=json";
             return axios.get(url);
         },
 
         getTracksRequest() {
-            const url = this.api.music.url + "/recording?query=title:" + this.research + "&fmt=json";
+            const url = this.api.music.url + "/recording?query=title:" + this.research + "fmt=json";
             return axios.get(url);
         }
     },

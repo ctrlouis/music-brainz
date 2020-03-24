@@ -1,5 +1,7 @@
 @import './modules/color.scss';
 @import './modules/font.scss';
+@import './modules/font.scss';
+@import './mixins/grid.scss';
 
 
 html {
@@ -75,13 +77,10 @@ a {
 }
 
 .cards {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
+  @include grid(12, 1em);
 
   & > div {
-    margin: 1.5em;
+    margin-bottom: 1em;
     padding: 1em;
     background-color: $secondary;
     border-radius: 8px;

@@ -1,7 +1,7 @@
 <!-- ALBUM DISPLAYER COMPONENTS -->
 
 <template>
-    <div>
+    <div class="col-6 col-s-4 col-l-3 col-xl-2">
         <h3>{{data.name}}</h3>
         <router-link :to="detailUrl">Go to details</router-link>
     </div>
