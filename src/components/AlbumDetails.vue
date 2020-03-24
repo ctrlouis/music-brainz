@@ -1,6 +1,12 @@
+/*
+* PAGE
+* Display all album information
+*/
 <template>
     <div>
         <div v-if="loaded && !error.set">
+
+            <!-- album informations  -->
             <div class="album">
                 <div v-if="imgLoad" class="cover">
                     <img :src="imageSrc" alt="" @error="onImgError">
@@ -11,6 +17,8 @@
                     <p class="date">{{fetchData.album.data.date}}</p>
                 </div>
             </div>
+
+            <!-- albums tracks -->
             <div>
                 <h2><i class="fas fa-music"></i> Tracks :</h2>
                 <div v-if="fetchData.tracks">
@@ -27,7 +35,9 @@
                     </table>
                 </div>
             </div>
+
         </div>
+
         <Loader v-else-if="!error.set"></Loader>
         <Error v-else>{{error.message}}</Error>
     </div>
@@ -69,6 +79,9 @@ export default {
 
     methods: {
         searchAll(research) {
+            /*
+            * fetch all albums data (self informations, tracks) from music brainz api
+            */
             const requests = [this.getAlbumRequest(), this.getTracksRequest()];
             axios.all(requests)
             .then(axios.spread((album, tracks) => {
@@ -81,20 +94,32 @@ export default {
         },
 
         getAlbumRequest() {
+            /*
+            * @return request for fetching informations about the current album
+            */
             const url = this.api.music.url + "/release/" + this.id + "?inc=artists&fmt=json";
             return axios.get(url);
         },
 
         getTracksRequest() {
+            /*
+            * @return request for fetching tracks of the current album
+            */
             const url = this.api.music.url + "/recording/?release=" + this.id + "&fmt=json";
             return axios.get(url);
         },
 
         onImgError() {
+            /*
+            * toggle imageLoad boolean significating there is no cover loaded
+            */
             this.imgLoad = !this.imgLoad;
         },
 
         setError() {
+            /*
+            * display error
+            */
             this.error.set = true;
             this.error.message = "An error occurred when fetching data. Please retry later.";
         }
@@ -102,6 +127,9 @@ export default {
 
     computed: {
         artists() {
+            /*
+            * @return array containings artists of the albums and them data
+            */
             let artists = [];
             if (this.fetchData.album.data['artist-credit']) {
                 this.fetchData.album.data['artist-credit'].forEach(artist => artists.push(artist.artist));
@@ -109,14 +137,24 @@ export default {
             return artists;
         },
         imageSrc() {
+            /*
+            * @return url to album cover
+            */
             return this.api.cover.url + this.fetchData.album.data.id + "/front";
         },
         loaded() {
+            /*
+            * @return true if some data had already been fetch
+            */
             return this.fetchData.album || this.fetchData.tracks;
         }
     },
 
     created() {
+        /*
+        * on component creation,
+        * start fetching data
+        */
         this.id = this.$route.params.id;
         this.searchAll();
     }

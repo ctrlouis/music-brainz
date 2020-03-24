@@ -1,3 +1,7 @@
+/*
+* PAGE
+* Display all artist information
+*/
 <template>
     <div>
         <div v-if="mainDataLoad || !error.set">
