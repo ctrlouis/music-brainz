@@ -2,12 +2,6 @@
     <div>
         <form @submit="exec">
             <input type="text" placeholder="Search..." v-model="research" autofocus>
-            <select v-model="categorie">
-                <option disabled value="">Toutes catégories</option>
-                <option value="album">Albums</option>
-                <option value="artist">Artists</option>
-                <option value="track">Tracks</option>
-            </select>
         </form>
     </div>
 </template>
