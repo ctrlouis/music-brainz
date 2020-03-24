@@ -18,9 +18,6 @@ export default {
     },
 
     computed: {
-        title() {
-            return this.data.title;
-        },
         album() {
             let album = null;
             if (this.data.releases[0]) {
@@ -36,7 +33,23 @@ export default {
             return artists;
         },
         albumUrl() {
+            /*
+            * generate url to details of the current album
+            *
+            * @output => (string) url to album details
+            */
             return `/albums/${this.data.releases[0].id}`;
+        },
+        millisToMinutesAndSeconds(millis) {
+            /*
+            * convert time in ms into time min
+            *
+            * @input => millis: in ms
+            * @output => (string) formated time in min
+            */
+            var minutes = Math.floor(millis / 60000);
+            var seconds = ((millis % 60000) / 1000).toFixed(0);
+            return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
         }
     }
 }
