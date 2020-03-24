@@ -2,6 +2,7 @@
     <div>
         <form @submit="exec">
             <input type="text" placeholder="Search..." v-model="research" autofocus>
+            <button type="submit" class="button">Search</button>
         </form>
     </div>
 </template>
