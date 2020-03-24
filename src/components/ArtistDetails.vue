@@ -1,10 +1,23 @@
 <template>
     <div>
         <div v-if="loaded">
-            <h1>{{fetchData.artist.data.name}}</h1>
-            <h2><i class="fas fa-compact-disc"></i> Albums :</h2>
-            <div class="cards">
-                <Album v-for="album in fetchData.albums.data.releases" :data="album"></Album>
+            <div class="artist">
+                <h2>{{fetchData.artist.data.name}}</h2>
+                <div v-if="fetchData.artist.data.type">
+                    <p>Type: {{fetchData.artist.data.type}}</p>
+                </div>
+                <div v-if="fetchData.artist.data.gender">
+                    <p>Gender: {{fetchData.artist.data.gender}}</p>
+                </div>
+                <div v-if="fetchData.artist.data.country">
+                    <p>Country: {{fetchData.artist.data.country}}</p>
+                </div>
+            </div>                
+            <div>
+                <h2><i class="fas fa-compact-disc"></i> Albums :</h2>
+                <div class="cards">
+                    <Album v-for="album in fetchData.albums.data.releases" :data="album"></Album>
+                </div>
             </div>
         </div>
         <div v-else><Loader></Loader></div>
@@ -26,8 +39,7 @@ export default {
             id: null,
             fetchData: {
                 artist: null,
-                albums: null,
-                tracks: null
+                albums: null
             },
             api: {
                 music: {
@@ -79,5 +91,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+.info {
+    justify-content: start;
+}
 </style>
