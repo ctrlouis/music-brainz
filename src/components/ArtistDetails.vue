@@ -1,7 +1,15 @@
 <template>
     <div>
-        <div v-if="artist">
-            <h1>{{artist.name}}</h1>
+        <div v-if="loaded">
+            <h1>{{fetchData.artist.data.name}}</h1>
+            <h2>Albums :</h2>
+            <div class="cards">
+                <Album v-for="album in fetchData.albums.data.releases" :data="album"></Album>
+            </div>
+            <h2>Tracks :</h2>
+            <div class="cards">
+                
+            </div>
         </div>
         <div v-else><Loader></Loader></div>
 
@@ -23,8 +31,11 @@ export default {
     data() {
         return {
             id: null,
-            artist: null,
-            albums: null,
+            fetchData: {
+                artist: null,
+                albums: null,
+                tracks: null
+            },
             api: {
                 music: {
                     url: "https://musicbrainz.org/ws/2"
@@ -34,40 +45,42 @@ export default {
     },
 
     methods: {
-        fetchArtistData() {
-            const url = `${this.api.music.url}/artist/${this.$route.params.id}?fmt=json`;
-            
-            axios.get(url)
-            .then((res) => {
-                this.artist = res.data;
-                console.log(this.artist);
-            }).catch(err => console.error(err));
+        searchAll(research) {
+            const requests = [this.getArtistsRequest(), this.getAlbumsRequest()];
+            axios.all(requests)
+            .then(axios.spread((artist, albums) => {
+                this.fetchData.artist = artist;
+                this.fetchData.albums = albums;
+                console.log(this.fetchData.albums);
+                // this.fetchData.tracks = tracks;
+            })).catch(err => console.error(err));
         },
-        fetchArtistAlbums() {
-            const url = `${this.api.music.url}/release-group?artist=${this.$route.params.id}&fmt=json&limit=10`;
-            console.log(url);
-            axios.get(url)
-            .then((res) => {
-                this.albums = res.data;
-                console.log(this.albums);                
-            }).catch(err => console.error(err));
+
+        getArtistsRequest() {
+            const url = this.api.music.url + "/artist/" + this.id  + "?fmt=json";
+            return axios.get(url);
         },
-        fetchArtistTracks() {
-            const url = `${this.api.music.url}/release?artist=${this.$route.params.id}&fmt=json&limit=10`;
-            console.log(url);
-            axios.get(url)
-            .then((res) => {
-                this.tracks = res.data;
-                console.log(this.tracks);                
-            }).catch(err => console.error(err));
+
+        getAlbumsRequest() {
+            const url = this.api.music.url + "/release?artist=" + this.id + "&fmt=json";
+            return axios.get(url);
+        },
+
+        getTracksRequest() {
+            const url = this.api.music.url + "/recording?query=title:" + this.research + "&fmt=json";
+            return axios.get(url);
+        }
+    },
+
+    computed: {
+        loaded() {
+            return this.fetchData.albums || this.fetchData.artists || this.fetchData.tracks;
         }
     },
 
     created() {
         this.id = this.$route.params.id;
-        this.fetchArtistData();
-        this.fetchArtistAlbums();
-        this.fetchArtistTracks();
+        this.searchAll();
     }
 }
 </script>
