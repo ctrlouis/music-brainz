@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="loaded">
+        <div v-if="loaded && !error.set">
             <div class="album">
                 <div v-if="imgLoad" class="cover">
                     <img :src="imageSrc" alt="" @error="onImgError">
@@ -28,7 +28,8 @@
                 </div>
             </div>
         </div>
-        <div v-else><Loader></Loader></div>
+        <Loader v-else-if="!error.set"></Loader>
+        <Error v-else>{{error.message}}</Error>
     </div>
 </template>
 
@@ -37,9 +38,11 @@ import axios from 'axios';
 import Album from './Album.vue';
 import Track from './Track.vue';
 import Loader from './Loader.vue';
+import Error from './Error.vue';
+
 
 export default {
-    components: { Album, Track, Loader },
+    components: { Album, Track, Loader, Error },
 
     data() {
         return {
@@ -56,6 +59,10 @@ export default {
                 cover: {
                     url: "http://coverartarchive.org/release/"
                 }
+            },
+            error: {
+                set: false,
+                message: ""
             }
         }
     },
@@ -70,7 +77,7 @@ export default {
                 this.fetchData.tracks = tracks;
                 console.log(this.fetchData.tracks);
                 console.table(this.artists);
-            })).catch(err => console.error(err));
+            })).catch(err => this.setError());
         },
 
         getAlbumRequest() {
@@ -85,6 +92,11 @@ export default {
 
         onImgError() {
             this.imgLoad = !this.imgLoad;
+        },
+
+        setError() {
+            this.error.set = true;
+            this.error.message = "An error occurred when fetching data. Please retry later.";
         }
     },
 
