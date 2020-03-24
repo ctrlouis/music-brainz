@@ -1,4 +1,7 @@
-<!-- ALBUM DISPLAYER COMPONENTS -->
+/*
+* COMPONENT
+* Display short album informations
+*/
 
 <template>
     <router-link :to="detailUrl" class="card col-6 col-s-4 col-l-3 col-xl-2">
@@ -44,15 +47,24 @@ export default {
 
     methods: {
         onImgError() {
+            /*
+            * toggle imageLoad boolean significating there is no cover loaded
+            */
             this.imgLoad = !this.imgLoad;
         }
     },
 
     computed: {
         detailUrl() {
+            /*
+            * @return url to current album details
+            */
             return `/albums/${this.data.id}`;
         },
         artists() {
+            /*
+            * @return array containings artists of the albums and them data
+            */
             let artists = [];
             if (this.data['artist-credit']) {
                 this.data['artist-credit'].forEach(artist => artists.push(artist.artist));
@@ -60,6 +72,9 @@ export default {
             return artists;
         },
         imageSrc() {
+            /*
+            * @return url to album cover
+            */
             return this.api.cover.url + this.data.id + "/front";
         }
     }
