@@ -3,7 +3,7 @@
 <template>
   <div id="app">
     <main>
-      <h1>My Music Manager</h1>
+       <router-link to="/"><h1>My Music Manager</h1></router-link>
       <router-view></router-view>
     </main>
     <footer>
@@ -29,5 +29,9 @@ export default {
 <style lang="scss" scoped>
 h1, p {
   text-align: center;
+}
+
+a {
+  text-decoration: none;
 }
 </style>
