@@ -6,10 +6,6 @@
             <div class="cards">
                 <Album v-for="album in fetchData.albums.data.releases" :data="album"></Album>
             </div>
-            <h2>Tracks :</h2>
-            <div class="cards">
-                
-            </div>
         </div>
         <div v-else><Loader></Loader></div>
 
