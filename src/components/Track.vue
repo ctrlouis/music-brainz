@@ -3,9 +3,9 @@
 <template>
     <tr>
         <td>{{data.title}}</td>
-        <td><router-link :to="albumUrl">{{ title }}</router-link></td>
+        <td><router-link :to="albumUrl">{{ album }}</router-link></td>
         <td><span v-for="artist in artists"><router-link :to="`/artists/${artist.id}`">{{ artist.name }}</router-link></span></td>
-        <td>{{data.length}}</td>
+        <td>{{time}}</td>
     </tr>
 </template>
 
@@ -32,6 +32,21 @@ export default {
             }
             return artists;
         },
+        time() {
+            /*
+            * convert time in ms into time min
+            *
+            * @output => (string) formated time in min
+            */
+            let time = "";
+            if (this.data.length) {
+                const millis = this.data.length
+                const minutes = Math.floor(millis / 60000);
+                const seconds = ((millis % 60000) / 1000).toFixed(0);
+                time = minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+            }
+            return time;
+        },
         albumUrl() {
             /*
             * generate url to details of the current album
@@ -39,17 +54,6 @@ export default {
             * @output => (string) url to album details
             */
             return `/albums/${this.data.releases[0].id}`;
-        },
-        millisToMinutesAndSeconds(millis) {
-            /*
-            * convert time in ms into time min
-            *
-            * @input => millis: in ms
-            * @output => (string) formated time in min
-            */
-            var minutes = Math.floor(millis / 60000);
-            var seconds = ((millis % 60000) / 1000).toFixed(0);
-            return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
         }
     }
 }
