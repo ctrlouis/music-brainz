@@ -1,3 +1,8 @@
+/*
+* COMPONENT
+* Error displayer
+*/
+
 <template>
     <div id="error">
         <div>
