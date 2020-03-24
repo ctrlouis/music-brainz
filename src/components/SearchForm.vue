@@ -1,3 +1,7 @@
+/*
+* COMPONENT
+* Research input
+*/
 <template>
     <div>
         <form @submit="exec">
@@ -20,6 +24,11 @@ export default {
 
     methods: {
         exec(event) {
+            /*
+            * start new research on click or at when 'enter' key is press
+            *
+            * @input => event: submit event trigger by the forms
+            */
             event.preventDefault();
             if (this.research != "") {
                 this.$emit('newSearch', this.research);
@@ -28,6 +37,9 @@ export default {
         },
 
         clearForm() {
+            /*
+            * clear input form
+            */
             this.research = "";
             this.categorie = "";
         }
