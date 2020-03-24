@@ -69,11 +69,6 @@ export default {
         getAlbumsRequest() {
             const url = this.api.music.url + "/release?artist=" + this.id + "&fmt=json";
             return axios.get(url);
-        },
-
-        getTracksRequest() {
-            const url = this.api.music.url + "/recording?query=title:" + this.research + "&fmt=json";
-            return axios.get(url);
         }
     },
 
