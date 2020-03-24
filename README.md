@@ -1,5 +1,7 @@
 # music-brainz
 
+GitHub repo : https://github.com/ctrlouis/music-brainz
+
 > A Vue.js project
 
 ## Build Setup
