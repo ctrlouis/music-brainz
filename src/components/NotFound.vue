@@ -1,3 +1,8 @@
+/*
+* PAGE
+* 404 not found page
+*/
+
 <template>
   <div>
     <h1>404 Not Found</h1>
@@ -14,6 +19,10 @@ export default {
   },
 
   created() {
+    /*
+    * on component creation,
+    * start timer of 5s before redirect user to the home page
+    */
     setTimeout(() => this.$router.replace("/"), 5000);
   }
 }
