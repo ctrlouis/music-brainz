@@ -67,6 +67,10 @@ export default {
 </script>
 
 <style lang="scss">
+img {
+  max-width: 10em;
+  max-height: 10em;
+}
 .cover {
     display: flex;
     justify-content: center;
