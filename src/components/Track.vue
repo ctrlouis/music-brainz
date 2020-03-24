@@ -1,4 +1,7 @@
-<!-- ALBUM DISPLAYER COMPONENTS -->
+/*
+* COMPONENT
+* Display short track informations
+*/
 
 <template>
     <tr>
@@ -19,6 +22,9 @@ export default {
 
     computed: {
         album() {
+            /*
+            * @return (string) album title if available in current information
+            */
             let album = null;
             if (this.data.releases && this.data.releases[0]) {
                 album = this.data.releases[0].title;
@@ -26,6 +32,9 @@ export default {
             return album;
         },
         artists() {
+            /*
+            * @return (array) artists array if available in current information
+            */
             let artists = [];
             if (this.data['artist-credit']) {
                 this.data['artist-credit'].forEach(artist => artists.push(artist.artist));
@@ -36,7 +45,7 @@ export default {
             /*
             * convert time in ms into time min
             *
-            * @output => (string) formated time in min
+            * @return => (string) formated time in min
             */
             let time = "";
             if (this.data.length) {
@@ -51,7 +60,7 @@ export default {
             /*
             * generate url to details of the current album
             *
-            * @output => (string) url to album details
+            * @return => (string) url to album details
             */
             let url = "";
             if (this.data.releases && this.data.releases[0]) {
