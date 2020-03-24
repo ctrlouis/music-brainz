@@ -1,10 +1,25 @@
 <template>
     <div>
         <h2>All {{ type }} related to "{{ research }}" </h2>
-        <div>
+        <div class="cards">
             <Album  v-if="type == 'albums' && dataAreFetch"     v-for="album in fetchedData.data"   :data="album"></Album>
             <Artist v-if="type == 'artists' && dataAreFetch"    v-for="artist in fetchedData.data"  :data="artist"></Artist>
-            <Track  v-if="type == 'tracks' && dataAreFetch"     v-for="track in fetchedData.data"   :data="track"></Track>
+        </div>
+        <div v-if="type == 'tracks' && dataAreFetch">
+            <table>
+                <thead>
+                    <tr>
+                        <th><h4>Title</h4></th>
+                        <th><h4>Album</h4></th>
+                        <th><h4>Artist</h4></th>
+                        <th><h4>Time</h4></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <Track v-for="track in fetchedData.data" :data="track"></Track>
+                </tbody>
+            </table>
+        </div>
             <div v-if="loading"><Loader></Loader></div>
             <button v-if="dataLeft" class="button" @click="loadMore">Load more</button>
         </div>
@@ -45,17 +60,16 @@ export default {
         fetchData() {
             switch (this.type) {
                 case 'albums':
-                    this.fetchedData.url = this.api.music.url + "/release-group?query=" + this.research + "&fmt=json";
+                    this.fetchedData.url = this.api.music.url + "/release?query=title:" + this.research + "&fmt=json";
                     this.fetchAlbums();
                     break;
                 case 'artists':
-                    this.fetchedData.url = this.api.music.url + "/artist?query=" + this.research + "&fmt=json";
+                    this.fetchedData.url = this.api.music.url + "/artist?query=name:" + this.research + "&fmt=json";
                     this.fetchArtists();
                     break;
                 case 'tracks':
-                    this.fetchedData.url = this.api.music.url + "/release?query=" + this.research + "&fmt=json";
+                    this.fetchedData.url = this.api.music.url + "/recording?query=title:" + this.research + "&fmt=json";
                     this.fetchTracks();
-
                     break;
                 default:
                     break;
@@ -68,7 +82,7 @@ export default {
             axios.get(url)
             .then(res => {
                 this.fetchedData.count = res.data.count;
-                res.data['release-groups'].forEach(album => this.fetchedData.data.push(album));
+                res.data.releases.forEach(album => this.fetchedData.data.push(album));
             })
             .catch(err => console.error(err))
             .finally(() => this.loading = false);
@@ -79,7 +93,7 @@ export default {
             axios.get(url)
             .then(res => {
                 this.fetchedData.count = res.data.count;
-                res.data['artists'].forEach(artist => this.fetchedData.data.push(artist))
+                res.data.artists.forEach(artist => this.fetchedData.data.push(artist))
                 console.log(this.fetchedData.data);
             })
             .catch(err => console.error(err))
@@ -91,7 +105,7 @@ export default {
             axios.get(url)
             .then(res => {
                 this.fetchedData.count = res.data.count;
-                res.data['releases'].forEach(track => this.fetchedData.data.push(track))
+                res.data.recordings.forEach(track => this.fetchedData.data.push(track))
             })
             .catch(err => console.error(err))
             .finally(() => this.loading = false);
