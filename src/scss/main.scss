@@ -79,7 +79,11 @@ a {
 .cards {
   @include grid(12, 1em);
 
-  & > div {
+  & > .card {
+    text-decoration: none;
+    color: white;
+    font-family: $defaultFont;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     margin-bottom: 1em;
     padding: 1em;
     background-color: $secondary;
@@ -95,6 +99,10 @@ a {
       text-align: center;
       font-size: 1.5em;
     }
+  }
+
+  & > div:hover {
+    box-shadow: 0 3px 10px $green;
   }
 }
 
@@ -116,9 +124,7 @@ a {
 }
 
 table {
-  th {
-    text-align: left;
-  }
+  text-align: left;
   font-family: $defaultFont;
   font-size: 1.5em;
   width: 100%;

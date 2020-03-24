@@ -1,7 +1,7 @@
 <!-- ALBUM DISPLAYER COMPONENTS -->
 
 <template>
-    <div class="col-6 col-s-4 col-l-3 col-xl-2">
+    <router-link :to="detailUrl" class="card col-6 col-s-4 col-l-3 col-xl-2">
         <h3>{{data.name}}</h3>
         <div v-if="data.type" class="info">
             <div>Type:</div>
@@ -15,8 +15,7 @@
             <div>Country:</div>
             <div>{{data.country}}</div>
         </div>
-        <router-link :to="detailUrl">Go to details</router-link>
-    </div>
+    </router-link>
 </template>
 
 <script>
