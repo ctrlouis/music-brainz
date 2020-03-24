@@ -3,7 +3,7 @@
         <SearchForm @newSearch="onNewSearch"></SearchForm>
         <h3 class="indication">Result related to "{{research}}"</h3>
         
-        <div v-if="loaded">
+        <div v-if="loaded && !error.set">
             <div class="titleMore">
                 <h2><i class="fas fa-user"></i> Artists :</h2>
                 <router-link :to="moreArtistUrl">View all</router-link>
@@ -40,7 +40,8 @@
                 </table>
             </div>
         </div>
-        <div v-else><Loader></Loader></div>
+        <div v-else-if="!error.set"><Loader></Loader></div>
+        <Error v-else>{{error.message}}</Error>
     </div>
 </template>
 
@@ -51,10 +52,11 @@ import Artist from './Artist.vue';
 import Track from './Track.vue';
 import SearchForm from './SearchForm.vue';
 import Loader from './Loader.vue';
+import Error from './Error.vue';
 
 
 export default {
-    components: { SearchForm, Album, Artist, Track, Loader },
+    components: { SearchForm, Album, Artist, Track, Loader, Error },
 
     data() {
         return {
@@ -68,6 +70,10 @@ export default {
                 albums: null,
                 artists: null,
                 tracks: null
+            },
+            error: {
+                set: false,
+                message: ""
             }
         }
     },
@@ -92,7 +98,7 @@ export default {
                 this.fetchData.artists = artists;
                 this.fetchData.albums = albums;
                 this.fetchData.tracks = tracks;
-            })).catch(err => console.error(err));
+            })).catch(err => this.setError());
         },
 
         getAlbumsRequest() {
@@ -108,6 +114,11 @@ export default {
         getTracksRequest() {
             const url = this.api.music.url + "/recording?query=title:" + this.research + "fmt=json";
             return axios.get(url);
+        },
+
+        setError() {
+            this.error.set = true;
+            this.error.message = "An error occurred when fetching data. Please retry later.";
         }
     },
 
