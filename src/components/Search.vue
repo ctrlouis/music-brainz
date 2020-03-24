@@ -35,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <Track v-for="track in this.fetchData.tracks.data.recordings" :data="track" :info="{title: true, album: true, artist: true, time: true}"></Track>
+                        <Track v-for="track in this.fetchData.tracks.data.recordings" :data="track" :info="{title: true, album: true, artists: true, time: true}"></Track>
                     </tbody>
                 </table>
             </div>
@@ -98,6 +98,7 @@ export default {
                 this.fetchData.artists = artists;
                 this.fetchData.albums = albums;
                 this.fetchData.tracks = tracks;
+                console.log(this.fetchData.tracks.data.recordings);
             })).catch(err => this.setError());
         },
 

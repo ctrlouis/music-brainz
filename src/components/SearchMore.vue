@@ -17,7 +17,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <Track v-for="track in fetchedData.data" :data="track" :info="{title: true, album: true, artist: true, time: true}"></Track>
+                        <Track v-for="track in fetchedData.data" :data="track" :info="{title: true, album: true, artists: true, time: true}"></Track>
                     </tbody>
                 </table>
             </div>
