@@ -1,3 +1,8 @@
+/*
+* COMPONENT
+* Loading spinner
+*/
+
 <template>
     <div>
         <div class="spinner">
