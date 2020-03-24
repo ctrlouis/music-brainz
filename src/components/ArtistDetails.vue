@@ -18,6 +18,7 @@
                 <div class="cards">
                     <Album v-for="album in fetchData.albums.data.releases" :data="album"></Album>
                 </div>
+                <button v-if="dataLeft" class="button" @click="loadMore">Load more</button>
             </div>
         </div>
         <div v-else><Loader></Loader></div>
@@ -37,9 +38,11 @@ export default {
     data() {
         return {
             id: null,
+            pageNbr: 0,
             fetchData: {
                 artist: null,
-                albums: null
+                albums: null,
+                count: 0
             },
             api: {
                 music: {
@@ -56,8 +59,7 @@ export default {
             .then(axios.spread((artist, albums) => {
                 this.fetchData.artist = artist;
                 this.fetchData.albums = albums;
-                console.log(this.fetchData.albums);
-                // this.fetchData.tracks = tracks;
+                this.fetchData.count = albums.data['release-count'];
             })).catch(err => console.error(err));
         },
 
@@ -67,14 +69,30 @@ export default {
         },
 
         getAlbumsRequest() {
-            const url = this.api.music.url + "/release?artist=" + this.id + "&fmt=json";
+            const url = this.api.music.url + "/release?artist=" + this.id + "&fmt=json" + this.calculPage();
             return axios.get(url);
+        },
+
+        loadMore() {
+            this.loading = true;
+            this.getAlbumsRequest()
+            .then(res => res.data.releases.forEach(album => this.fetchData.albums.data.releases.push(album)))
+            .catch(err => console.error(err));
+        },
+
+        calculPage(pageNbr=0, pageSize=25) {
+            const offset = pageNbr * pageSize;
+            return "&limite=" + pageSize + "&offset=" + offset;
         }
     },
 
     computed: {
         loaded() {
             return this.fetchData.albums || this.fetchData.artists || this.fetchData.tracks;
+        },
+
+        dataLeft() {
+            return this.fetchData.albums.data.releases.length < this.fetchData.count;
         }
     },
 
@@ -86,7 +104,11 @@ export default {
 </script>
 
 <style lang="scss">
-.info {
-    justify-content: start;
+.artist p {
+    text-align: left;
+}
+
+div {
+    text-align: center;
 }
 </style>
