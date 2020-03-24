@@ -139,7 +139,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div {
+h2, div {
     text-align: center;
+}
+h2 {
+    margin-bottom: 1em;
 }
 </style>

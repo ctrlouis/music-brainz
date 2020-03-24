@@ -4,17 +4,26 @@
         <h3 class="indication">Result related to "{{research}}"</h3>
         
         <div v-if="loaded">
-            <h2><i class="fas fa-user"></i> Artists :</h2> <router-link :to="moreArtistUrl">View all</router-link>
+            <div class="titleMore">
+                <h2><i class="fas fa-user"></i> Artists :</h2>
+                <router-link :to="moreArtistUrl">View all</router-link>
+            </div>
             <div v-if="fetchData.artists" class="cards">
                 <Artist v-for="artist in fetchData.artists.data['artists']" :data="artist"></Artist>
             </div>
 
-            <h2><i class="fas fa-compact-disc"></i> Albums :</h2> <router-link :to="moreAlbumUrl">View all</router-link>
+            <div class="titleMore">
+                <h2><i class="fas fa-compact-disc"></i> Albums :</h2>
+                <router-link :to="moreAlbumUrl">View all</router-link>
+            </div>
             <div v-if="fetchData.albums" class="cards">
                 <Album v-for="album in fetchData.albums.data.releases" :data="album"></Album>
             </div>
 
-            <h2><i class="fas fa-music"></i> Tracks :</h2> <router-link :to="moreTrackUrl">View all</router-link>
+            <div class="titleMore">
+                <h2><i class="fas fa-music"></i> Tracks :</h2>
+                <router-link :to="moreTrackUrl">View all</router-link>
+            </div>
             <div v-if="fetchData.tracks">
                 <table>
                     <thead>
@@ -128,8 +137,5 @@ export default {
 .indication {
     text-align: center;
     margin-top: 2%;
-}
-h2 {
-    margin-top: 3%;
 }
 </style>
