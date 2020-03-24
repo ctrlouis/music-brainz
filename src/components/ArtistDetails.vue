@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div v-if="loaded && !error.set">
-            <div class="artist">
+        <div v-if="mainDataLoad || !error.set">
+            <div v-if="fetchData.artist" class="artist">
                 <h2>{{fetchData.artist.data.name}}</h2>
                 <div v-if="fetchData.artist.data.type">
                     <p>Type: {{fetchData.artist.data.type}}</p>
@@ -13,16 +13,18 @@
                     <p>Country: {{fetchData.artist.data.country}}</p>
                 </div>
             </div>                
-            <div>
+            <div v-if="fetchData.albums">
                 <h2><i class="fas fa-compact-disc"></i> Albums :</h2>
                 <div class="cards">
                     <Album v-for="album in fetchData.albums.data.releases" :data="album"></Album>
                 </div>
+                <Loader v-if="loading && !error.set"></Loader>
+                <Error v-if="error.set">{{error.message}}</Error>
                 <button v-if="dataLeft" class="button" @click="loadMore">Load more</button>
             </div>
         </div>
         <div v-else-if="!error.set"><Loader></Loader></div>
-        <Error v-if="error.set">{{error.message}}</Error>
+        <Error v-if="error.set && !mainDataLoad">{{error.message}}</Error>
     </div>
 </template>
 
@@ -51,6 +53,7 @@ export default {
                     url: "https://musicbrainz.org/ws/2"
                 }
             },
+            loading : false,
             error: {
                 set: false,
                 message: ""
@@ -80,10 +83,12 @@ export default {
         },
 
         loadMore() {
+            this.error.set = false;
             this.loading = true;
             this.getAlbumsRequest()
             .then(res => res.data.releases.forEach(album => this.fetchData.albums.data.releases.push(album)))
-            .catch(err => console.error(err));
+            .catch(err => this.setError())
+            .finally(() => this.loading = false);
         },
 
         calculPage(pageNbr=0, pageSize=25) {
@@ -98,8 +103,8 @@ export default {
     },
 
     computed: {
-        loaded() {
-            return this.fetchData.albums || this.fetchData.artists || this.fetchData.tracks;
+        mainDataLoad() {
+            return this.fetchData.artist && this.fetchData.albums;
         },
 
         dataLeft() {
