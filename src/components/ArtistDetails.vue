@@ -2,15 +2,12 @@
     <div>
         <div v-if="loaded">
             <h1>{{fetchData.artist.data.name}}</h1>
-            <h2>Albums :</h2>
+            <h2><i class="fas fa-compact-disc"></i> Albums :</h2>
             <div class="cards">
                 <Album v-for="album in fetchData.albums.data.releases" :data="album"></Album>
             </div>
         </div>
         <div v-else><Loader></Loader></div>
-
-        <!-- <Album v-if="albums" v-for="album in albums" :data="album"></Album>
-        <p v-else>Loading</p> -->
     </div>
 </template>
 

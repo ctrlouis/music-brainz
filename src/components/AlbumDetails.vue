@@ -3,7 +3,7 @@
         <div v-if="loaded">
             <h1>{{fetchData.album.data.title}}</h1>
             <p>By <span v-for="artist in artists"><router-link :to="`/artists/${artist.id}`">{{ artist.name }}</router-link></span></p>
-            <h2>Tracks</h2>
+            <h2><i class="fas fa-music"></i> Tracks</h2>
             <div v-if="fetchData.tracks">
                 <table>
                     <thead>
