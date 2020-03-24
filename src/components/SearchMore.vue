@@ -1,27 +1,30 @@
 <template>
     <div>
         <h2>All {{ type }} related to "{{ research }}" </h2>
-        <div class="cards">
-            <Album  v-if="type == 'albums' && dataAreFetch"     v-for="album in fetchedData.data"   :data="album"></Album>
-            <Artist v-if="type == 'artists' && dataAreFetch"    v-for="artist in fetchedData.data"  :data="artist"></Artist>
+        <div>
+            <div class="cards">
+                <Album  v-if="type == 'albums' && dataAreFetch"     v-for="album in fetchedData.data"   :data="album"></Album>
+                <Artist v-if="type == 'artists' && dataAreFetch"    v-for="artist in fetchedData.data"  :data="artist"></Artist>
+            </div>
+            <div v-if="type == 'tracks' && dataAreFetch">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><h4>Title</h4></th>
+                            <th><h4>Album</h4></th>
+                            <th><h4>Artist</h4></th>
+                            <th><h4>Time</h4></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <Track v-for="track in fetchedData.data" :data="track" :info="{title: true, album: true, artist: true, time: true}"></Track>
+                    </tbody>
+                </table>
+            </div>
+            <div v-if="loading && !error.set"><Loader></Loader></div>
+            <button v-if="dataLeft" class="button" @click="loadMore">Load more</button>
         </div>
-        <div v-if="type == 'tracks' && dataAreFetch">
-            <table>
-                <thead>
-                    <tr>
-                        <th><h4>Title</h4></th>
-                        <th><h4>Album</h4></th>
-                        <th><h4>Artist</h4></th>
-                        <th><h4>Time</h4></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <Track v-for="track in fetchedData.data" :data="track"></Track>
-                </tbody>
-            </table>
-        </div>
-        <div v-if="loading"><Loader></Loader></div>
-        <button v-if="dataLeft" class="button" @click="loadMore">Load more</button>
+        <Error v-if="error.set">{{error.message}}</Error>
     </div>
 </template>
 
@@ -31,10 +34,11 @@ import Album from './Album.vue';
 import Artist from './Artist.vue';
 import Track from './Track.vue';
 import Loader from './Loader.vue';
+import Error from './Error.vue';
 
 
 export default {
-    components: { Album, Artist, Track, Loader },
+    components: { Album, Artist, Track, Loader, Error },
 
     data() {
         return {
@@ -51,7 +55,11 @@ export default {
                 data: [],
                 url: ""
             },
-            loading : true
+            loading : true,
+            error: {
+                set: false,
+                message: ""
+            }
         }
     },
 
@@ -83,7 +91,7 @@ export default {
                 this.fetchedData.count = res.data.count;
                 res.data.releases.forEach(album => this.fetchedData.data.push(album));
             })
-            .catch(err => console.error(err))
+            .catch(err => this.setError())
             .finally(() => this.loading = false);
         },
 
@@ -93,9 +101,8 @@ export default {
             .then(res => {
                 this.fetchedData.count = res.data.count;
                 res.data.artists.forEach(artist => this.fetchedData.data.push(artist))
-                console.log(this.fetchedData.data);
             })
-            .catch(err => console.error(err))
+            .catch(err => this.setError())
             .finally(() => this.loading = false);
         },
 
@@ -106,11 +113,12 @@ export default {
                 this.fetchedData.count = res.data.count;
                 res.data.recordings.forEach(track => this.fetchedData.data.push(track))
             })
-            .catch(err => console.error(err))
+            .catch(err => this.setError())
             .finally(() => this.loading = false);
         },
 
         loadMore() {
+            this.error.set = false;
             this.loading = true;
             this.fetchData();
         },
@@ -118,6 +126,11 @@ export default {
         calculPage(pageNbr=0, pageSize=25) {
             const offset = pageNbr * pageSize;
             return "&limite=" + pageSize + "&offset=" + offset;
+        },
+
+        setError() {
+            this.error.set = true;
+            this.error.message = "An error occurred when fetching data. Please retry later.";
         }
     },
 
