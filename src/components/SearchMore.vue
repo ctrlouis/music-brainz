@@ -59,11 +59,11 @@ export default {
         fetchData() {
             switch (this.type) {
                 case 'albums':
-                    this.fetchedData.url = this.api.music.url + "/release?query=title:" + this.research + "&fmt=json";
+                    this.fetchedData.url = this.api.music.url + "/release?query=" + this.research + "&fmt=json";
                     this.fetchAlbums();
                     break;
                 case 'artists':
-                    this.fetchedData.url = this.api.music.url + "/artist?query=name:" + this.research + "&fmt=json";
+                    this.fetchedData.url = this.api.music.url + "/artist?query=" + this.research + "&fmt=json";
                     this.fetchArtists();
                     break;
                 case 'tracks':
