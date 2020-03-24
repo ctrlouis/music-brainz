@@ -49,6 +49,10 @@ a {
   color: $green;
 }
 
+a, button {
+  cursor: pointer;
+}
+
 /* CSS BUTTON */
 .button {
   border: none;
