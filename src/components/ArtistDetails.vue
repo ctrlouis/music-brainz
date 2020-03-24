@@ -1,6 +1,8 @@
 <template>
     <div>
         <div v-if="mainDataLoad || !error.set">
+
+            <!-- artists information -->
             <div v-if="fetchData.artist" class="artist">
                 <h2>{{fetchData.artist.data.name}}</h2>
                 <div v-if="fetchData.artist.data.type">
@@ -12,7 +14,9 @@
                 <div v-if="fetchData.artist.data.country">
                     <p>Country: {{fetchData.artist.data.country}}</p>
                 </div>
-            </div>                
+            </div>
+
+            <!-- all albums of the artist -->
             <div v-if="fetchData.albums">
                 <h2><i class="fas fa-compact-disc"></i> Albums :</h2>
                 <div class="cards">
@@ -22,6 +26,8 @@
                 <Error v-if="lastSearch == 'albums' && error.set">{{error.message}}</Error>
                 <button v-if="albumLeft" class="button" @click="loadMoreAlbums">Load more</button>
             </div>
+
+            <!-- all tracks of the artist -->
             <div v-if="fetchData.tracks">
                 <h2><i class="fas fa-music"></i> Tracks :</h2>
                 
@@ -40,7 +46,9 @@
                 <Error v-if="lastSearch == 'tracks' && error.set">{{error.message}}</Error>
                 <button v-if="trackLeft" class="button" @click="loadMoreTracks">Load more</button>
             </div>
+
         </div>
+
         <Loader v-if="!mainDataLoad && !error.set"></Loader>
         <Error v-if="error.set && !mainDataLoad">{{error.message}}</Error>
     </div>
@@ -86,7 +94,10 @@ export default {
     },
 
     methods: {
-        searchAll(research) {
+        searchAll() {
+            /*
+            * fetch all artists data (self informations, albums, tracks) from music brainz api
+            */
             const requests = [this.getArtistsRequest(), this.getAlbumsRequest(), this.getTracksRequest()];
             axios.all(requests)
             .then(axios.spread((artist, albums, tracks) => {
@@ -99,21 +110,33 @@ export default {
         },
 
         getArtistsRequest() {
+            /*
+            * @return request for fetching informations about the current artist
+            */
             const url = this.api.music.url + "/artist/" + this.id  + "?fmt=json";
             return axios.get(url);
         },
 
         getAlbumsRequest() {
+            /*
+            * @return request for fetching next 25 albums of the current artist
+            */
             const url = this.api.music.url + "/release?artist=" + this.id + "&fmt=json" + this.calculPage(this.pageNbr.albums);
             return axios.get(url);
         },
 
         getTracksRequest() {
+            /*
+            * @return request for fetching next 25 tracks of the current artist
+            */
             const url = this.api.music.url + "/recording?artist=" + this.id + "&fmt=json" + this.calculPage(this.pageNbr.tracks);
             return axios.get(url);
         },
 
         loadMoreAlbums() {
+            /*
+            * fetch more album
+            */
             this.error.set = false;
             this.loading = true;
             this.lastSearch = "albums";
@@ -125,6 +148,9 @@ export default {
         },
 
         loadMoreTracks() {
+            /*
+            * fetch more tracks
+            */
             this.error.set = false;
             this.loading = true;
             this.lastSearch = "tracks";
@@ -136,11 +162,17 @@ export default {
         },
 
         calculPage(pageNbr=0, pageSize=25) {
+            /*
+            * calcul offset to fetch only new data
+            */
             const offset = pageNbr * pageSize;
             return "&limite=" + pageSize + "&offset=" + offset;
         },
 
         setError() {
+            /*
+            * display error
+            */
             this.error.set = true;
             this.error.message = "An error occurred when fetching data. Please retry later.";
         }
@@ -148,19 +180,38 @@ export default {
 
     computed: {
         mainDataLoad() {
-            return this.fetchData.artist && this.fetchData.albums;
+            /*
+            * allow to know if artist informations, first 25 albums and tracks had been fetch
+            * 
+            * @return true if data had been fetched, else return false
+            */
+            return this.fetchData.artist && this.fetchData.albums && this.fetchData.tracks;
         },
 
         albumLeft() {
+            /*
+            * allow to know if some albums data aren't been fetch on api
+            *
+            * @return true if some data aren't been fetch on api, else return false
+            */
             return this.fetchData.albums.data.releases.length < this.fetchData.albumCount;
         },
 
         trackLeft() {
+            /*
+            * allow to know if some tracks data aren't been fetch on api
+            *
+            * @return true if some data aren't been fetch on api, else return false
+            */
             return this.fetchData.tracks.data.recordings.length < this.fetchData.trackCount;
         }
     },
 
     created() {
+        /*
+        * on component creation,
+        * start fetching data
+        */
         this.id = this.$route.params.id;
         this.searchAll();
     }
