@@ -20,7 +20,7 @@ export default {
     computed: {
         album() {
             let album = null;
-            if (this.data.releases[0]) {
+            if (this.data.releases && this.data.releases[0]) {
                 album = this.data.releases[0].title;
             }
             return album;
@@ -53,7 +53,11 @@ export default {
             *
             * @output => (string) url to album details
             */
-            return `/albums/${this.data.releases[0].id}`;
+            let url = "";
+            if (this.data.releases && this.data.releases[0]) {
+                url = `/albums/${this.data.releases[0].id}`
+            }
+            return url;
         }
     }
 }
