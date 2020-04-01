@@ -4,6 +4,7 @@
 */
 <template>
     <div>
+        <SearchForm @newSearch="onNewSearch"></SearchForm>
         <div v-if="mainDataLoad || !error.set">
 
             <!-- artists information -->
@@ -62,12 +63,13 @@
 import axios from 'axios';
 import Album from './Album.vue';
 import Track from './Track.vue';
+import SearchForm from './SearchForm.vue';
 import Loader from './Loader.vue';
 import Error from './Error.vue';
 
 
 export default {
-    components: { Album, Track, Loader, Error },
+    components: { Album, Track, SearchForm, Loader, Error },
 
     data() {
         return {
@@ -179,6 +181,17 @@ export default {
             */
             this.error.set = true;
             this.error.message = "An error occurred when fetching data. Please retry later.";
+        },
+
+        onNewSearch(research) {
+            /*
+            * redirect user to search page
+            * when searching something
+            * 
+            * @input => research: user research
+            */
+            const url = "/search/" + research;
+            this.$router.replace(url);
         }
     },
 
